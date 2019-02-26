@@ -467,6 +467,18 @@ class ApiService {
   getPortalHeaders(api) {
     return this.$http.get(this.apisURL + api + '/headers');
   }
+
+  isEndpointNameAlreadyUsed(api: any, name: string) {
+    let endpointsName: String[] = [];
+    _.forEach(api.proxy.groups, (group) => {
+      endpointsName.push(group.name);
+      _.forEach(group.endpoints, (endpoint) => {
+        endpointsName.push(endpoint.name);
+      });
+    });
+
+    return _.filter(endpointsName, (endpointName) => name === endpointName).length > 1;
+  }
 }
 
 export default ApiService;
